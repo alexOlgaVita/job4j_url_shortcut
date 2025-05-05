@@ -50,12 +50,8 @@ public class UrlService {
         return urlRepository.findByCode(code).get().getUrl();
     }
 
-    public String callsCounterIncrement(String code) {
-        var url = urlRepository.findByCode(code).get();
-        urlRepository.save(new Url(url.getId(), url.getUrl(), url.getCode(), url.getCallsCount() + 1,
-                url.getSite()));
-
-        return urlRepository.findByCode(code).get().getUrl();
+    public void callsCounterIncrement(String code) {
+        urlRepository.setCallsCount(code);
     }
 
     public List<StatisticDTO> statistic(String site) {

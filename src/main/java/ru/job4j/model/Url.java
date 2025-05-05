@@ -28,6 +28,7 @@ public class Url {
             message = "code должен быть не менее 4 и не более 15 символов")
     private String code;
 
+    @Version
     private long callsCount;
 
     @ManyToOne
