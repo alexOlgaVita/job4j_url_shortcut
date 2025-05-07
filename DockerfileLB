@@ -1,4 +1,0 @@
-FROM maven:3.8-openjdk-17 as maven
-WORKDIR /app
-COPY . /app
-CMD ["mvn", "liquibase:update", "-Pdocker"]
