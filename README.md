@@ -68,6 +68,39 @@ docker-compose build
 2. Запуск:
 docker-compose up -d
 
+### Запуск приложения в K8s
+(на локальной машине можно испольовать minicube + Docker Fro Windows)
+Для запуска сервисов созданы соотвествующие *--deployment.yml файлы ()
+- Создаем secret из указанного файла:
+kubectl apply -f postgresdb-secret.yml
+- Проверяем, что secret создан:
+ kubectl get secret
+- Вносим ConfigMap в кластер:
+kubectl apply -f postgresdb-configmap.yml
+- Проверяем configmaps:
+kubectl get configmaps
+- Запускаем создание развертывания для postgresdb:
+kubectl apply -f postgresdb-deployment.yml
+- Проверяем запуск:
+kubectl logs -l app=postgresdb
+- Можно получить сводную информацию с помощью describe:
+kubectl describe pod spring-boot-5894cdb74f-8dc5m
+- Для получения pod'а используем команду:
+kubectl get pods
+
+Аналогично, для Spring Boot приложения
+- Запускаем создание развертывания:
+kubectl apply -f spring-deployment.yml
+- Проверяем запуск:
+kubectl logs -l app=spring-boot
+
+- В итоге, проверяем работоспособность приложения:
+1. kubectl get service
+2. получаем URL, по которому можно подключиться к сервису извне
+minikube service spring-boot-service
+3. По заданному IP и порту можно делать запросы к нашему приложению
+(в Postman или используя curl)
+
 ### Взаимодействие с приложением
 
 #### Скриншоты
