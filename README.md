@@ -12,8 +12,8 @@
 
 - регистрации сайта;
 - авторизации;
-- концертации исходной ссылки в безопасную;
-- переход по бозопасной ссылке;
+- конвертации исходной ссылки в безопасную;
+- переход по безопасной ссылке;
 - статистику о количестве переходов по ссылкам конкретного сайта.
 
 ### Описание
@@ -38,7 +38,7 @@
 
 4. Переадресация
 
-- Можно выполнять переадресацию по безлпасной ссылке.
+- Можно выполнять переадресацию по безопасной ссылке.
 - Выполняется без авторизации.
 
 5. Статистика
@@ -63,49 +63,55 @@ SpringBoot 3.4.3, Java 17, Maven 3.4.0, PostgreSQL 42
 и далее запускаем приложение
 
 В проекте есть возможность выполнения многоэтапной сборки и запуска:
+
 1. Сборка:
-docker-compose build
+   docker-compose build
 2. Запуск:
-docker-compose up -d
+   docker-compose up -d
 
 ### Запуск приложения в K8s
+
 (на локальной машине можно испольовать minicube + Docker Fro Windows)
 Для запуска сервисов созданы соотвествующие *--deployment.yml файлы ()
+
 - Создаем secret из указанного файла:
-kubectl apply -f postgresdb-secret.yml
+  kubectl apply -f postgresdb-secret.yml
 - Проверяем, что secret создан:
- kubectl get secret
+  kubectl get secret
 - Вносим ConfigMap в кластер:
-kubectl apply -f postgresdb-configmap.yml
+  kubectl apply -f postgresdb-configmap.yml
 - Проверяем configmaps:
-kubectl get configmaps
+  kubectl get configmaps
 - Запускаем создание развертывания для postgresdb:
-kubectl apply -f postgresdb-deployment.yml
+  kubectl apply -f postgresdb-deployment.yml
 - Проверяем запуск:
-kubectl logs -l app=postgresdb
+  kubectl logs -l app=postgresdb
 - Можно получить сводную информацию с помощью describe:
-kubectl describe pod spring-boot-5894cdb74f-8dc5m
+  kubectl describe pod spring-boot-5894cdb74f-8dc5m
 - Для получения pod'а используем команду:
-kubectl get pods
+  kubectl get pods
 
 Аналогично, для Spring Boot приложения
+
 - Запускаем создание развертывания:
-kubectl apply -f spring-deployment.yml
+  kubectl apply -f spring-deployment.yml
 - Проверяем запуск:
-kubectl logs -l app=spring-boot
+  kubectl logs -l app=spring-boot
 
 - В итоге, проверяем работоспособность приложения:
+
 1. kubectl get service
 2. получаем URL, по которому можно подключиться к сервису извне
-minikube service spring-boot-service
+   minikube service spring-boot-service
 3. По заданному IP и порту можно делать запросы к нашему приложению
-(в Postman или используя curl)
+   (в Postman или используя curl)
 
 ### Взаимодействие с приложением
 
 #### Скриншоты
 
 ##### *Сваггер*
+
 /swagger-ui/index.html
 
 ![Сваггер](images/swagger.jpg)
@@ -148,14 +154,14 @@ minikube service spring-boot-service
 
 #### API
 
-|          |                                        |                                                                       |
-|----------|----------------------------------------|-----------------------------------------------------------------------|
-| POST     | /api/registration                      | Регистрация сайта                                                     |
-| POST     | /api/signin                            | Авторизация                                                           |
-| POST     | /api/convert                           | Регистрация ссылки сайт и получение преобразованной ссылки            |
-| CET      | /api/redirect/{code}                   | Переход по безопасной ссылке                                          |
-| CET      | /api/statistic/{siteName}              | Статистика количества переходов по ссылкам сайта                      |
-| -------- | -------------------------------------- | --------------------------------------------------------------------- |
+|      |                           |                                                            |
+|------|---------------------------|------------------------------------------------------------|
+| POST | /api/registration         | Регистрация сайта                                          |
+| POST | /api/signin               | Авторизация                                                |
+| POST | /api/convert              | Регистрация ссылки сайт и получение преобразованной ссылки |
+| CET  | /api/redirect/{code}      | Переход по безопасной ссылке                               |
+| CET  | /api/statistic/{siteName} | Статистика количества переходов по ссылкам сайта           |
+|      |                           |                                                            |
 
 ### Контакты
 
